@@ -1,0 +1,122 @@
+@mixin transition($property: all, $duration: 0.45s, $ease: cubic-bezier(0.65, 0, 0.076, 1)) {
+  transition: $property $duration $ease;
+}
+
+$light: #f0abfc;
+$dark: #070f4d;
+
+.go_button_container {
+  position: absolute;
+  z-index: 10;
+  left: 55%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  * {
+    box-sizing: border-box;
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
+  button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    &.learn_more {
+      width: 12rem;
+      height: auto;
+      .circle {
+        @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
+        position: relative;
+        display: block;
+        margin: 0;
+        width: 3rem;
+        height: 3rem;
+        background: $dark;
+        border-radius: 1.625rem;
+        .icon {
+          @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          background: $light;
+          &.arrow {
+            @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
+            left: 0.625rem;
+            width: 1.125rem;
+            height: 0.125rem;
+            background: none;
+            &::before {
+              position: absolute;
+              content: "";
+              top: -0.25rem;
+              right: 0.0625rem;
+              width: 0.625rem;
+              height: 0.625rem;
+              border-top: 0.125rem solid $light;
+              border-right: 0.125rem solid $light;
+              transform: rotate(45deg);
+            }
+          }
+        }
+      }
+      .button_text {
+        @include transition(all, 0.45s, cubic-bezier(0.65, 0, 0.076, 1));
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 0.75rem 0;
+        margin: 0 0 0 1.85rem;
+        color: $dark;
+        font-weight: 700;
+        line-height: 1.6;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+    &:hover {
+      .circle {
+        width: 100%;
+        .icon {
+          &.arrow {
+            background: $light;
+            transform: translate(1rem, 0);
+          }
+        }
+      }
+      .button_text {
+        color: $light;
+      }
+    }
+  }
+}
+
+.controller {
+  position: absolute;
+  z-index: 10;
+  top: 73%;
+  left: 2%;
+  transform: rotate(31deg);
+}
+.planet {
+  position: absolute;
+  z-index: 10;
+  top: 40%;
+  left: 60%;
+}
