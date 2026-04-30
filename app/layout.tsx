@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 
@@ -31,10 +31,10 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <body className={cn("min-h-full flex flex-col bg-black text-white relative", "bg-dot-pattern bg-grid-pattern")}>
+      <body className={"min-h-full flex flex-col bg-gradient-to-b from-[#070f4d] to-[#000515] text-white relative "}>
         <div className="fixed inset-0 bg-gradient-to-tr from-cyan-500/5 via-transparent to-fuchsia-500/5 pointer-events-none" />
         <Navbar />
-        <div className="relative h-full flex-1 flex flex-col grow pt-16 z-10">
+        <div className="relative h-full flex-1 flex flex-col grow z-10">
           {children}
         </div>
       </body>

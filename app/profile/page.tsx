@@ -12,6 +12,7 @@ import { collection, query, getDocs, limit, doc, setDoc, serverTimestamp } from 
 import { db } from "@/lib/firebase";
 import Link from "next/link";
 import Image from "next/image";
+import {cn} from "@/lib/utils";
 
 export default function ProfilePage() {
   const { user, loading: authLoading } = useAuthStore();
@@ -93,9 +94,10 @@ export default function ProfilePage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-20">
       {/* Top Section: Search & Add */}
-      <div className="bg-zinc-950/50 backdrop-blur-xl rounded-3xl p-8 border border-white/5 mb-12 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+        <div className={cn('bg-dot-pattern', 'fixed left-0 top-0 w-screen h-screen')}></div>
+        <div className="bg-zinc-950/50 backdrop-blur-xl rounded-3xl p-8 border border-white/5 mb-12 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
                 <h1 className="text-3xl font-black text-white flex items-center gap-3">

@@ -17,6 +17,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import {cn} from "@/lib/utils";
 
 export default function CatalogPage() {
   const { games, loading, fetchGames } = useGameStore();
@@ -38,10 +39,6 @@ export default function CatalogPage() {
     if (!user) return;
     
     try {
-        // We create a copy of the game in the user's personal collection or just a reference
-        // For simplicity, let's create a 'user_games' collection or just add to the same collection with user's ID
-        // The requirement says "Приватная страница юзера которая показывает его сохраненные игры"
-        // Let's create a document in 'user_libraries/{userId}/games/{gameId}'
         const userGameRef = doc(db, 'user_libraries', user.uid, 'games', game.id);
         await setDoc(userGameRef, {
             ...game,
@@ -55,7 +52,8 @@ export default function CatalogPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-20">
+      <div className={cn('bg-dot-pattern', 'fixed left-0 top-0 w-screen h-screen')}></div>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <div>
             <h1 className="text-4xl font-black tracking-tight text-white mb-2">Game Catalog</h1>
