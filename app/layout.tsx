@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className={cn("min-h-full flex flex-col bg-black text-white relative", "bg-dot-pattern bg-grid-pattern")}>
         <div className="fixed inset-0 bg-gradient-to-tr from-cyan-500/5 via-transparent to-fuchsia-500/5 pointer-events-none" />
         <Navbar />
-        <div className="flex-1 flex flex-col pt-16 relative z-10">
+        <div className="relative h-full flex-1 flex flex-col grow pt-16 z-10">
           {children}
         </div>
       </body>

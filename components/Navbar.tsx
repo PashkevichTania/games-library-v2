@@ -29,7 +29,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
             <Gamepad2 className="w-8 h-8 text-cyan-400" />
-            <span className="font-black text-xl tracking-tighter text-white">GAME LIB</span>
+            <span className="font-black text-xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-cyan-400 via-blue-500 to-fuchsia-500">GAME LIB</span>
           </Link>
 
           <div className="flex items-center gap-6">
