@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 import stylesMain from "@/styles/main.module.scss";
+import {cn} from "@/lib/utils";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -38,7 +39,7 @@ export default function Home() {
           className="relative flex flex-col justify-center items-center bg-gradient-to-b from-[#070f4d] to-[#000515] pt-16 pb-32"
       >
         <div className="w-[90%] text-white">
-          <div className={stylesMain.glass}>
+          <div className={`border-none! ${stylesMain.glass} ${stylesMain.rainbowBorderGlass}`}>
             <div className="pt-12 pb-12 pr-10 pl-10">
               <div className="align-bottom mb-6">
                 <h2 className="text-5xl font-extrabold mr-5 inline-block">
@@ -59,10 +60,10 @@ export default function Home() {
                   </p>
                   <div className="pt-4">
                     <Link href="/catalog">
-                      <Button variant="neonCyan" size="lg" className="rounded-xl px-10 py-7 text-white font-black flex items-center gap-3">
+                      <Button variant="neonCyan" size="lg" className="rounded-xl px-10 py-7 text-cyan-400 font-black flex items-center gap-3">
                         Browse Catalog
                         <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
-                          <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-white border-b-[4px] border-b-transparent" />
+                          <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-cyan-400 border-b-[4px] border-b-transparent" />
                         </div>
                       </Button>
                     </Link>
@@ -91,7 +92,7 @@ export default function Home() {
 
         {/* Background Images Layer */}
         <div className="inset-0 z-[1] pointer-events-none overflow-hidden">
-          <div className="absolute top-[10%] -left-10 w-[600px] h-[600px]">
+          <div className="absolute top-[-70px] -left-10 w-[600px] h-[600px]">
             <Image
                 src="/assets/glass_planet.png"
                 alt="Planet"
@@ -99,7 +100,7 @@ export default function Home() {
                 className="object-contain"
             />
           </div>
-          <div className="absolute bottom-[10%] -right-20 w-[500px] h-[500px]">
+          <div className="absolute bottom-[-140px] -right-[-40px] w-[500px] h-[500px]">
             <Image
                 src="/assets/ps4controller.png"
                 alt="Controller"
