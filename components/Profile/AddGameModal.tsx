@@ -39,7 +39,7 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
     platforms: [] as Platform[],
     rating: 0,
     igdbId: null as number | null,
-    igdbRating: undefined as number | undefined
+    igdbRating: null as number | null
   });
 
   const handleIGDBSearch = async () => {
@@ -88,6 +88,8 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
         createdAt: serverTimestamp(),
         rating: Number(formData.rating)
       };
+
+      console.log('gameToSave', gameToSave)
 
       await addDoc(collection(db, "games"), gameToSave);
       fetchGames(true);

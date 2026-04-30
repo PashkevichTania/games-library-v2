@@ -2,8 +2,7 @@ import { create } from 'zustand';
 import { Game } from '@/lib/constants';
 import { 
   collection, 
-  query, 
-  where, 
+  query,
   getDocs, 
   getDoc,
   doc,

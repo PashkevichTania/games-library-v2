@@ -29,6 +29,8 @@ export default function CatalogPage() {
     fetchGames(true);
   }, [fetchGames]);
 
+  console.log('games', games)
+
   const filteredGames = games.filter(game => {
     const matchesSearch = game.title.toLowerCase().includes(search.toLowerCase());
     const matchesGenre = selectedGenre === "all" || game.genres.includes(selectedGenre as any);
