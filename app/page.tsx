@@ -7,7 +7,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 import stylesMain from "@/styles/main.module.scss";
-import {cn} from "@/lib/utils";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);

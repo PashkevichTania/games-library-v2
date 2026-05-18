@@ -55,7 +55,7 @@ export default function CatalogPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-20">
-      <div className={cn('bg-dot-pattern', 'fixed left-0 top-0 w-screen h-screen')}></div>
+      <div className={cn('bg-dot-mask-pattern', 'fixed left-0 top-0 w-screen h-screen')}></div>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <div>
             <h1 className="text-4xl font-black tracking-tight text-white mb-2">Game Catalog</h1>
@@ -67,20 +67,23 @@ export default function CatalogPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-cyan-400 transition-colors" />
                 <Input 
                     placeholder="Search games..." 
-                    className="pl-10 bg-zinc-900 border-zinc-800 focus:border-cyan-500/50 w-full sm:w-[250px] text-white"
+                    className="pl-10 w-full sm:w-[250px] text-white"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
             
-            <Select value={selectedGenre} onValueChange={setSelectedGenre}>
+            <Select value={selectedGenre} onValueChange={(value) => {
+                if (!value) setSelectedGenre('all')
+                else setSelectedGenre(value)
+            }}>
                 <SelectTrigger className="w-full sm:w-[180px] bg-zinc-900 border-zinc-800 text-white">
                     <div className="flex items-center">
                         <SlidersHorizontal className="w-4 h-4 mr-2 text-zinc-500" />
                         <SelectValue placeholder="Genre" />
                     </div>
                 </SelectTrigger>
-                <SelectContent className="bg-zinc-900 border-zinc-800 text-white">
+                <SelectContent className="bg-zinc-900 border-zinc-800 text-white max-h-100">
                     <SelectItem value="all">All Genres</SelectItem>
                     {GENRES.map(genre => (
                         <SelectItem key={genre} value={genre}>{genre}</SelectItem>
