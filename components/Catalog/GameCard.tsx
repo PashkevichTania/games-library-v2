@@ -5,16 +5,17 @@ import { Game } from "@/lib/constants";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
-import { PlusCircle, Star, Trash2 } from "lucide-react";
+import { CheckCircle2, PlusCircle, Star, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface GameCardProps {
   game: Game;
   onAdd?: (game: Game) => void;
   onRemove?: (gameId: string) => void;
+  isInLibrary?: boolean;
 }
 
-export default function GameCard({ game, onAdd, onRemove }: GameCardProps) {
+export default function GameCard({ game, onAdd, onRemove, isInLibrary }: GameCardProps) {
   const { user } = useAuthStore();
 
   return (
@@ -65,14 +66,25 @@ export default function GameCard({ game, onAdd, onRemove }: GameCardProps) {
 
       {user && onAdd && (
         <CardFooter className="p-4 pt-0 bg-zinc-950/50 backdrop-blur-sm">
-          <Button 
-            onClick={() => onAdd(game)}
-            variant="neonCyan" 
-            className="w-full gap-2 font-bold py-5"
-          >
-            <PlusCircle className="w-4 h-4" />
-            Add to Library
-          </Button>
+          {isInLibrary ? (
+            <Button 
+              disabled
+              variant="outline" 
+              className="w-full gap-2 font-bold py-5 border-zinc-800 bg-zinc-900/50 text-zinc-400 opacity-100"
+            >
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+              In library
+            </Button>
+          ) : (
+            <Button 
+              onClick={() => onAdd(game)}
+              variant="neonCyan" 
+              className="w-full gap-2 font-bold py-5"
+            >
+              <PlusCircle className="w-4 h-4" />
+              Add to Library
+            </Button>
+          )}
         </CardFooter>
       )}
     </Card>

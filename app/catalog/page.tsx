@@ -20,7 +20,7 @@ import { db } from "@/lib/firebase";
 import {cn} from "@/lib/utils";
 
 export default function CatalogPage() {
-  const { games, loading, fetchGames } = useGameStore();
+  const { games, userGames, loading, fetchGames, fetchUserGames } = useGameStore();
   const { user } = useAuthStore();
   const [search, setSearch] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string>("all");
@@ -28,6 +28,12 @@ export default function CatalogPage() {
   useEffect(() => {
     fetchGames(true);
   }, [fetchGames]);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserGames(user.uid);
+    }
+  }, [user, fetchUserGames]);
 
   console.log('games', games)
 
@@ -46,6 +52,8 @@ export default function CatalogPage() {
             ...game,
             addedToLibraryAt: serverTimestamp(),
         });
+        // Refetch user games to update the UI
+        fetchUserGames(user.uid);
         alert(`"${game.title}" added to your library!`);
     } catch (error) {
         console.error("Error adding to library:", error);
@@ -102,9 +110,17 @@ export default function CatalogPage() {
       ) : filteredGames.length > 0 ? (
         <>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                {filteredGames.map(game => (
-                    <GameCard key={game.id} game={game} onAdd={handleAddToLibrary} />
-                ))}
+                {filteredGames.map(game => {
+                    const isInLibrary = userGames.some(ug => ug.id === game.id);
+                    return (
+                        <GameCard 
+                            key={game.id} 
+                            game={game} 
+                            onAdd={handleAddToLibrary} 
+                            isInLibrary={isInLibrary}
+                        />
+                    );
+                })}
             </div>
             
             {!loading && games.length >= 12 && (

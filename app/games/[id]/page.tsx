@@ -14,7 +14,8 @@ import {
   Gamepad2, 
   ArrowLeft,
   PlusCircle,
-  ExternalLink
+  ExternalLink,
+  CheckCircle2
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -23,7 +24,7 @@ import { db } from "@/lib/firebase";
 export default function GameDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
-  const { fetchGameById } = useGameStore();
+  const { fetchGameById, userGames, fetchUserGames } = useGameStore();
   const { user } = useAuthStore();
   
   const [game, setGame] = useState<Game | null>(null);
@@ -40,6 +41,14 @@ export default function GameDetailsPage() {
     loadGame();
   }, [id, fetchGameById]);
 
+  useEffect(() => {
+    if (user) {
+      fetchUserGames(user.uid);
+    }
+  }, [user, fetchUserGames]);
+
+  const isInLibrary = game && userGames.some(ug => ug.id === game.id);
+
   const handleAddToLibrary = async () => {
     if (!user || !game) return;
     
@@ -49,6 +58,7 @@ export default function GameDetailsPage() {
             ...game,
             addedToLibraryAt: serverTimestamp(),
         });
+        fetchUserGames(user.uid);
         alert(`"${game.title}" added to your library!`);
     } catch (error) {
         console.error("Error adding to library:", error);
@@ -136,13 +146,23 @@ export default function GameDetailsPage() {
 
               {user && (
                 <div className="pt-4">
-                  <Button 
-                    onClick={handleAddToLibrary}
-                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-6 rounded-xl gap-2 shadow-lg shadow-cyan-500/20"
-                  >
-                    <PlusCircle className="w-5 h-5" />
-                    Add to My Library
-                  </Button>
+                  {isInLibrary ? (
+                    <Button 
+                      disabled
+                      className="bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold px-8 py-6 rounded-xl gap-2 opacity-100"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                      In My Library
+                    </Button>
+                  ) : (
+                    <Button 
+                      onClick={handleAddToLibrary}
+                      className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-6 rounded-xl gap-2 shadow-lg shadow-cyan-500/20"
+                    >
+                      <PlusCircle className="w-5 h-5" />
+                      Add to My Library
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
