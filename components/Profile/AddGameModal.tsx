@@ -7,12 +7,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { GENRES, PLATFORMS, Genre, Platform } from "@/lib/constants";
 import { Search, Loader2, Sparkles, Plus } from "lucide-react";
-import { searchIGDBGames } from "@/lib/igdb";
 import Image from "next/image";
 import { useGameStore } from "@/store/useGameStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {searchIGDBGames} from "@/lib/igdb";
 
 interface AddGameModalProps {
   isOpen: boolean;
@@ -64,8 +64,8 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
       bgUrl: game.bgUrl || "",
       releaseDate: game.releaseDate,
       // Map and filter to match our predefined constants
-      genres: (game.genres || []).filter((g: string) => GENRES.includes(g as any)) as Genre[],
-      platforms: (game.platforms || []).filter((p: string) => PLATFORMS.includes(p as any)) as Platform[],
+      genres: (game.genres || []).filter((g: string) => GENRES.includes(g as Genre)) as Genre[],
+      platforms: (game.platforms || []).filter((p: string) => PLATFORMS.includes(p as Platform)) as Platform[],
       igdbId: game.igdbId,
       igdbRating: game.igdbRating,
       developers: (game.developers || []).join(", "),
@@ -107,7 +107,7 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
         platforms: [],
         rating: 0,
         igdbId: null,
-        igdbRating: undefined
+        igdbRating: null
       });
     } catch (error) {
       console.error("Error adding game:", error);
@@ -129,10 +129,20 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
               placeholder="Search game on IGDB..." 
               value={igdbSearch}
               onChange={(e) => setIgdbSearch(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleIGDBSearch()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleIGDBSearch();
+                }
+              }}
               className="bg-zinc-950 border-zinc-800 text-white"
             />
-            <Button onClick={handleIGDBSearch} disabled={isSearching} className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold">
+            <Button 
+              type="button"
+              onClick={handleIGDBSearch} 
+              disabled={isSearching} 
+              className="bg-cyan-500 hover:bg-cyan-600 text-black font-bold"
+            >
               {isSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
             </Button>
           </div>
@@ -245,13 +255,13 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
                     key={genre}
                     type="button"
                     onClick={() => {
-                      const newGenres = formData.genres.includes(genre as any)
+                      const newGenres = formData.genres.includes(genre)
                         ? formData.genres.filter(g => g !== genre)
-                        : [...formData.genres, genre as Genre];
+                        : [...formData.genres, genre];
                       setFormData({...formData, genres: newGenres});
                     }}
                     className={`px-3 py-1 rounded-full text-xs transition-colors ${
-                      formData.genres.includes(genre as any) 
+                      formData.genres.includes(genre) 
                         ? 'bg-cyan-500 text-black font-bold' 
                         : 'bg-zinc-800 text-zinc-400 hover:text-white'
                     }`}
