@@ -12,7 +12,6 @@ import { useGameStore } from "@/store/useGameStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import {searchIGDBGames} from "@/lib/igdb";
 
 interface AddGameModalProps {
   isOpen: boolean;
@@ -46,7 +45,14 @@ export default function AddGameModal({ isOpen, onClose }: AddGameModalProps) {
     if (!igdbSearch.trim()) return;
     setIsSearching(true);
     try {
-        const results = await searchIGDBGames(igdbSearch);
+        // const results = await searchIGDBGames(igdbSearch);
+      const params = new URLSearchParams();
+      params.append("text", igdbSearch);
+      const response = await fetch(`/api/igdb/search?${params}`, {
+        method: 'GET',
+      })
+      const results = await response.json();
+      console.log(results);
         setSearchResults(results);
     } catch (error) {
         console.error("IGDB search error:", error);

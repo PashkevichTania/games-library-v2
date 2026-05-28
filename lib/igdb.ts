@@ -43,7 +43,7 @@ export async function searchIGDBGames(searchQuery: string) {
       headers: {
         "Client-ID": clientId,
         "Authorization": `Bearer ${token}`,
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
       },
       body: `search "${searchQuery}"; fields name, cover.url, first_release_date, summary, genres.name, involved_companies.company.name, involved_companies.developer, involved_companies.publisher, platforms.name, total_rating; limit 10;`,
       cache: 'no-store'
