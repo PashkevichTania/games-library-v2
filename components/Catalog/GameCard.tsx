@@ -19,7 +19,7 @@ export default function GameCard({ game, onAdd, onRemove, isInLibrary }: GameCar
   const { user } = useAuthStore();
 
   return (
-    <Card className="group relative overflow-hidden bg-zinc-950 border-white/5 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+    <Card className="group p-0 gap-1 relative overflow-hidden bg-zinc-950 border-white/5 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
       <Link href={`/games/${game.id}`}>
         <div className="relative aspect-[3/4] overflow-hidden">
           <Image
